@@ -20,24 +20,24 @@ const (
 )
 
 var (
-	zeroBytes        []byte          = []byte{0x0, 0x0, 0x0}
+	zeroBytes        []byte          = []byte{0x0, 0x0, 0x0, 0x0}
 	commandFormatMap map[byte][]byte = map[byte]([]byte){
 		TX_CMD_TURN_OFF:     zeroBytes,
 		TX_CMD_DIM_DOWN:     zeroBytes,
 		TX_CMD_TURN_ON:      zeroBytes,
 		TX_CMD_DIM_UP:       zeroBytes,
 		TX_CMD_TURN_CHANGE:  zeroBytes,
-		TX_CMD_DIM_CHANGE:   []byte{0x1, 0x3, 0x3},
-		TX_CMD_DIM_SET:      zeroBytes,
+		TX_CMD_DIM_CHANGE:   zeroBytes,
+		TX_CMD_DIM_SET:      []byte{0x1, 0x3, 0x3, 0x3},
 		TX_CMD_SCENE_RUN:    zeroBytes,
 		TX_CMD_SCENE_SAVE:   zeroBytes,
 		TX_CMD_CLEAR_ADDR:   zeroBytes,
 		TX_CMD_DIM_STOP:     zeroBytes,
 		TX_CMD_WANT_BIND:    zeroBytes,
-		TX_CMD_RAINBOW:      []byte{0x4, 0x4, 0x4},
-		TX_CMD_CHANGE_COLOR: []byte{0x4, 0x4, 0x4},
-		TX_CMD_WORK_MODE:    []byte{0x4, 0x4, 0x4},
-		TX_CMD_WORK_SPEED:   []byte{0x4, 0x4, 0x4},
+		TX_CMD_RAINBOW:      []byte{0x4, 0x4, 0x4, 0x4},
+		TX_CMD_CHANGE_COLOR: []byte{0x4, 0x4, 0x4, 0x4},
+		TX_CMD_WORK_MODE:    []byte{0x4, 0x4, 0x4, 0x4},
+		TX_CMD_WORK_SPEED:   []byte{0x4, 0x4, 0x4, 0x4},
 	}
 )
 
@@ -64,7 +64,7 @@ func (this Command) Data(buf []byte) (data []byte) {
 
 	data = append(data, this.value...)
 
-	for cnt := 0; cnt < 3-len(this.value); cnt++ {
+	for cnt := len(data); cnt < 8; cnt++ {
 		data = append(data, 0x0)
 	}
 	return data

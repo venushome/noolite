@@ -105,10 +105,10 @@ func main() {
 
 		line = strings.TrimSpace(line)
 		fields := strings.Fields(line)
-		cmd, cmd_ok := mapCommands[fields[0]]
 		if len(fields) == 0 {
 			continue
 		}
+		cmd, cmd_ok := mapCommands[fields[0]]
 		switch {
 		case line == "open":
 			openDev()
@@ -119,7 +119,7 @@ func main() {
 			}
 			chanel, err := strconv.Atoi(fields[1])
 			if err != nil || chanel < 0 || chanel > 63 {
-				log.Println("Bad channel for bind")
+				log.Println("Bad channel")
 				break
 			}
 			command := tx.Command{Type: cmd, Channel: byte(chanel)}
@@ -136,7 +136,7 @@ func main() {
 					if is_rgb {
 						command.SetRGB(r, g, b)
 					} else {
-						command.SetDimLevel(l)
+						command.SetRGB(l, l, l)
 					}
 				} else {
 					log.Println("Not enouth arguments")
